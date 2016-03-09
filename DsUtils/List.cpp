@@ -2,7 +2,7 @@
 
 static Node* newNode(int x)
 {
-	Node* tmp = new Node();
+	Node* tmp =  (Node*)malloc(sizeof(Node));
 	tmp-> data = x;
 	tmp-> next = NULL;
 
