@@ -16,7 +16,7 @@
 
 using namespace std;
 
-typedef struct {
+typedef struct Node{
 	int data;
 	Node* next;
 }Node;

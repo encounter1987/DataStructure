@@ -1,10 +1,13 @@
 #include "List.h"
 
+#include<stdio.h>
+#include<malloc.h>
+
 static Node* newNode(int x)
 {
 	Node* tmp =  (Node*)malloc(sizeof(Node));
-	tmp-> data = x;
-	tmp-> next = NULL;
+	tmp->data = x;
+	tmp->next = NULL;
 
 	return tmp;
 }
