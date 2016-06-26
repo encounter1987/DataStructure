@@ -5,6 +5,7 @@
 #include<string>
 #include <iostream>
 #include <string>
+#include <stack>
 #include <queue>
 #include <limits.h>
 #include <vector>
