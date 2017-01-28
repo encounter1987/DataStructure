@@ -26,16 +26,16 @@ void mulTwoNode(int m, int& carry, p_Node& H, p_Node& Gap, p_Node& Pos)
 {
 	if(Gap == NULL )
 	{
-        Insert(&H, (m + carry)%10);
-        carry = (m + carry)/10;
+		Insert(&H, (m + carry)%10);
+		carry = (m + carry)/10;
 
 		return;
 	}
 
-    m = Pos->data + m + carry;
-    Pos->data = m%10;
+	m = Pos->data + m + carry;
+	Pos->data = m%10;
 	Pos = Pos->next;
-    carry = m/10;    
+	carry = m/10;    
 }
 
 
@@ -60,25 +60,25 @@ void mul(p_Node h1, p_Node h2, int& carry, p_Node& H, p_Node& Gap, p_Node& Pos)
 		Insert(&H, carry);
 		carry = 0;
 	}
-    Pos = Gap = (Gap == NULL)? H->next : Gap->next;
+	Pos = Gap = (Gap == NULL)? H->next : Gap->next;
 }
 
 void multiply(p_Node h1, p_Node h2)
 {
-    p_Node Res = NULL;
-    p_Node Gap = NULL;
-    p_Node Pos = NULL;
-    int carry = 0;
+	p_Node Res = NULL;
+	p_Node Gap = NULL;
+	p_Node Pos = NULL;
+	int carry = 0;
 	mul(h1, h2, carry, Res, Gap, Pos);
 
-    Reverse(&Res);
+	Reverse(&Res);
 	Print(Res);
 }
 
 int main()
 {
 	Node *h1 = NULL, *h2 = NULL;
-    p_Node Res = NULL;
+	p_Node Res = NULL;
 
 	Insert(&h1, 2);
 	Insert(&h1, 7);
@@ -93,7 +93,7 @@ int main()
 	Print(h1);
 	Print(h2);
 
-    multiply(h1, h2);
+	multiply(h1, h2);
 
 	return 0;
 }
