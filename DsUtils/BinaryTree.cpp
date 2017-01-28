@@ -102,10 +102,10 @@ void Postorder(Node* root)
 
 int GetHeight(Node* root)
 {
-    if( root == NULL)
-        return 0;
+	if( root == NULL)
+		return 0;
 
-    return (MAX(GetHeight(root->left), GetHeight(root->right)))+1;
+	return (MAX(GetHeight(root->left), GetHeight(root->right)))+1;
 }
 
 static void drawTreeLinks(const vector<Node*>& treeData, int levelStart, int width, int& floorHeight, int& leftSpace)
@@ -156,33 +156,33 @@ static void PrintNode(const Node* node)
 
 static void drawTree(const vector< Node* >& treeData, int maxHeight)
 {
-    int levelCount = 1;
-    int width = 1;
+	int levelCount = 1;
+	int width = 1;
 
-    int levelStart = 0;
+	int levelStart = 0;
 	int leftSpace = ROOT_POS;
 	int floorHeight = FLOOR_HEIGHT;
 
-    FOR(h,1,maxHeight)
-    {
-	N_SPACE(leftSpace);
-        FOR(k,levelStart, levelStart+width-1)
-        {
+	FOR(h,1,maxHeight)
+	{
+		N_SPACE(leftSpace);
+		FOR(k,levelStart, levelStart+width-1)
+		{
 			PrintNode(treeData[k]);
 			if(k < levelStart+width-1)
 			{
 				N_SPACE(4*floorHeight-KEY_SIZE-1);
 			}
-        }
-	NEW_LINE;
+		}
+		NEW_LINE;
 
-	if(h < maxHeight)
-		drawTreeLinks(treeData, levelStart, width, floorHeight, leftSpace);
+		if(h < maxHeight)
+			drawTreeLinks(treeData, levelStart, width, floorHeight, leftSpace);
 
-	levelStart = levelStart + width;
-	leftSpace --;
-	width <<= 1;
-    }    
+		levelStart = levelStart + width;
+		leftSpace --;
+		width <<= 1;
+	}    
 }
 
 void drawBinaryTree(Node* root)
