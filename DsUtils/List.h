@@ -22,6 +22,7 @@ typedef struct Node{
 }Node;
 
 void Insert(Node** head, int x);
+void Insert(Node** head, Node**tail, int x);
 void Delete(Node* head, int key);
 void Delete(Node* head, Node* node);
 void Reverse(Node** head);

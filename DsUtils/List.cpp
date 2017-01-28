@@ -29,6 +29,18 @@ void Insert(Node** head, int x)
 	tmp->next = newNode(x);
 }
 
+void Insert(Node** head, Node** tail, int x)
+{
+	if( *head == NULL)
+	{
+		*head = *tail = newNode(x);
+
+		return;
+	}
+
+	(*tail)->next = newNode(x);
+	*tail = (*tail)->next;
+}
 
 void Delete(Node* head, int key)
 {
