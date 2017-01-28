@@ -17,23 +17,23 @@ static Node* newNode(int val)
 
 void BSTInsert(Node*& root, int data)
 {
-    if(root == NULL)
-    {
-        root = newNode(data);
+	if(root == NULL)
+	{
+		root = newNode(data);
 
-        return;
-    }
+		return;
+	}
 
-    Node *parent = NULL, *child = root;
+	Node *parent = NULL, *child = root;
 
-    while(child != NULL)
-    {
-        parent = child;
-        child = data < parent->data ? parent->left : parent->right;
-    }
+	while(child != NULL)
+	{
+		parent = child;
+		child = data < parent->data ? parent->left : parent->right;
+	}
 
-    if(data < parent->data)
-        parent->left = newNode(data);
-    else
-        parent->right = newNode(data);
+	if(data < parent->data)
+		parent->left = newNode(data);
+	else
+		parent->right = newNode(data);
 }
