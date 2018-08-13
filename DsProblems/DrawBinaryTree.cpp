@@ -6,20 +6,25 @@
 
 using namespace std;
 
-
 int main()
 {
-	Node* root = NULL;
-	//deSerialize(root);
-	//
-	for( int i = 0; i < 10; ++i)
-	{
-		BSTInsert(root, rand()%50);
-	}
+    // Variation 1
+    Node *root = NULL;
+    DeSerialize(root, "Input");
+    drawBinaryTree(root);
+    Inorder(root);
+    cout << endl;
 
-	drawBinaryTree(root);
-	Inorder(root);
-	cout << endl;
+    // Variation 2
+    Node *root1 = NULL;
+    for (int i = 0; i < 10; ++i)
+    {
+        BSTInsert(root1, rand() % 50);
+    }
 
-	return 0;
+    drawBinaryTree(root1);
+    Inorder(root1);
+    cout << endl;
+
+    return 0;
 }

@@ -1,8 +1,8 @@
 #include "BinaryTree.h"
 
-#include<iostream>
-#include<stdio.h>
-#include<string>
+#include <iostream>
+#include <stdio.h>
+#include <string>
 #include <iostream>
 #include <string>
 #include <stack>
@@ -10,209 +10,228 @@
 #include <limits.h>
 #include <vector>
 
-#define ABS(n)       (n) < (0) ? (-(n)):(n)
-#define MIN(a, b)    (a) < (b)? (a):(b)
-#define MAX(a, b)    (a) > (b)? (a):(b)
-#define FOR(i, a, b) for( int i = (a); i <=(b); ++i)
+#define ABS(n) (n) < (0) ? (-(n)) : (n)
+#define MIN(a, b) (a) < (b) ? (a) : (b)
+#define MAX(a, b) (a) > (b) ? (a) : (b)
+#define FOR(i, a, b) for (int i = (a); i <= (b); ++i)
 
-#define KEY_SIZE      4
-#define FLOOR_HEIGHT  16
-#define LEFT_ARM      printf("/")
-#define RIGHT_ARM     printf("\\")
-#define NEW_LINE      printf("\n")
-#define SPACE         printf(" ")
-#define N_SPACE(n)    FOR(i,0,n) printf(" ")
+#define KEY_SIZE 4
+#define FLOOR_HEIGHT 16
+#define LEFT_ARM printf("/")
+#define RIGHT_ARM printf("\\")
+#define NEW_LINE printf("\n")
+#define SPACE printf(" ")
+#define N_SPACE(n) \
+    FOR(i, 0, n)   \
+    printf(" ")
 
-#define TEXT          "    "
-#define ROOT_POS      70
+#define TEXT "    "
+#define ROOT_POS 70
 
 using namespace std;
 
-
-inline static int stringToInt(const char* ch)
+inline static int stringToInt(const char *ch)
 {
-	int val = 0;
+    int val = 0;
 
-	for( int i = 0; ch[i] != '\0'; ++i)
-	{
-		if(ch[i] == '-') continue;
-		val = val*10 + ch[i] - '0';
-	}
-	if(ch[0] == '-') val = -val;
+    for (int i = 0; ch[i] != '\0'; ++i)
+    {
+        if (ch[i] == '-')
+            continue;
+        val = val * 10 + ch[i] - '0';
+    }
+    if (ch[0] == '-')
+        val = -val;
 
-	return val;
+    return val;
 }
 
-static Node* newNode(int val)
+static Node *newNode(int val)
 {
-	Node* _new = new Node();
-	_new->data = val;
-	_new->left = NULL;
-	_new->right = NULL;
+    Node *_new = new Node();
+    _new->data = val;
+    _new->left = NULL;
+    _new->right = NULL;
 
-	return _new;
+    return _new;
 }
 
+static void deSerializeUtil(Node *&root, FILE *fp);
 
-void deSerialize(Node *&root)
+void DeSerialize(Node *&root, const std::string &file)
 {
-	char ch[32];
+    FILE *fp;
+    fp = fopen(file.c_str(), "r");
 
-	if( 1 != scanf("%s", ch) || ch[0] == ')')
-	{
-		return;
-	}
+    if (fp == nullptr)
+    {
+        std::cout << "Error!! opening file: " << file << std::endl;
+        return;
+    }
 
-	root = newNode(stringToInt(ch));
-	deSerialize(root->left);
-	deSerialize(root->right);
+    deSerializeUtil(root, fp);
+
+    fclose(fp);
 }
 
-void Inorder(Node* root)
+static void deSerializeUtil(Node *&root, FILE *fp)
 {
-	if(root == NULL)
-		return;
+    char ch[32];
 
-	Inorder(root->left);
-	printf("%d ", root->data);
-	Inorder(root->right);
+    if (1 != fscanf(fp, "%s", ch) || ch[0] == ')')
+    {
+        return;
+    }
+
+    root = newNode(stringToInt(ch));
+    deSerializeUtil(root->left, fp);
+    deSerializeUtil(root->right, fp);
 }
 
-void Preorder(Node* root)
+void Inorder(Node *root)
 {
-	if(root == NULL)
-		return;
+    if (root == NULL)
+        return;
 
-	printf("%d ", root->data);
-	Preorder(root->left);
-	Preorder(root->right);
+    Inorder(root->left);
+    printf("%d ", root->data);
+    Inorder(root->right);
 }
 
-void Postorder(Node* root)
+void Preorder(Node *root)
 {
-	if(root == NULL)
-		return;
+    if (root == NULL)
+        return;
 
-	Postorder(root->left);
-	Postorder(root->right);
-	printf("%d ", root->data);
+    printf("%d ", root->data);
+    Preorder(root->left);
+    Preorder(root->right);
 }
 
-
-
-int GetHeight(Node* root)
+void Postorder(Node *root)
 {
-	if( root == NULL)
-		return 0;
+    if (root == NULL)
+        return;
 
-	return (MAX(GetHeight(root->left), GetHeight(root->right)))+1;
+    Postorder(root->left);
+    Postorder(root->right);
+    printf("%d ", root->data);
 }
 
-static void drawTreeLinks(const vector<Node*>& treeData, int levelStart, int width, int& floorHeight, int& leftSpace)
+int GetHeight(Node *root)
 {
-	int betSpace = 0;
-	FOR(i,1,floorHeight-1)
-	{
-		N_SPACE(leftSpace+1);
+    if (root == NULL)
+        return 0;
 
-		FOR(k,levelStart,levelStart+width-1)
-		{
-			treeData[2*k+1] != NULL? LEFT_ARM : SPACE;
-			N_SPACE(betSpace-1);
-			treeData[2*k+2] != NULL? RIGHT_ARM : SPACE;
-
-			if(k < levelStart+width-1)
-			{
-				N_SPACE(4*floorHeight-KEY_SIZE-betSpace+1);
-			}
-		}
-		NEW_LINE;
-		leftSpace--;
-		betSpace += 2;
-	}
-	floorHeight /= 2;
+    return (MAX(GetHeight(root->left), GetHeight(root->right))) + 1;
 }
 
-static void PrintNode(const Node* node)
+static void drawTreeLinks(const vector<Node *> &treeData, int levelStart, int width, int &floorHeight, int &leftSpace)
 {
-	if(node == NULL)
-		cout << TEXT;
-	else
-	{
-		int count = 0;
-		if(node->data < 0) count ++;
+    int betSpace = 0;
+    FOR(i, 1, floorHeight - 1)
+    {
+        N_SPACE(leftSpace + 1);
 
-		int n = ABS(node->data);
-		while(n)
-	   	{ 
-			n /= 10; count++; 
-		} 
-		count = KEY_SIZE - count;
+        FOR(k, levelStart, levelStart + width - 1)
+        {
+            treeData[2 * k + 1] != NULL ? LEFT_ARM : SPACE;
+            N_SPACE(betSpace - 1);
+            treeData[2 * k + 2] != NULL ? RIGHT_ARM : SPACE;
 
-		while(count--) cout <<".";
-		cout << node->data;
-	}
+            if (k < levelStart + width - 1)
+            {
+                N_SPACE(4 * floorHeight - KEY_SIZE - betSpace + 1);
+            }
+        }
+        NEW_LINE;
+        leftSpace--;
+        betSpace += 2;
+    }
+    floorHeight /= 2;
 }
 
-static void drawTree(const vector< Node* >& treeData, int maxHeight)
+static void PrintNode(const Node *node)
 {
-	int levelCount = 1;
-	int width = 1;
+    if (node == NULL)
+        cout << TEXT;
+    else
+    {
+        int count = 0;
+        if (node->data < 0)
+            count++;
 
-	int levelStart = 0;
-	int leftSpace = ROOT_POS;
-	int floorHeight = FLOOR_HEIGHT;
+        int n = ABS(node->data);
+        while (n)
+        {
+            n /= 10;
+            count++;
+        }
+        count = KEY_SIZE - count;
 
-	FOR(h,1,maxHeight)
-	{
-		N_SPACE(leftSpace);
-		FOR(k,levelStart, levelStart+width-1)
-		{
-			PrintNode(treeData[k]);
-			if(k < levelStart+width-1)
-			{
-				N_SPACE(4*floorHeight-KEY_SIZE-1);
-			}
-		}
-		NEW_LINE;
-
-		if(h < maxHeight)
-			drawTreeLinks(treeData, levelStart, width, floorHeight, leftSpace);
-
-		levelStart = levelStart + width;
-		leftSpace --;
-		width <<= 1;
-	}    
+        while (count--)
+            cout << ".";
+        cout << node->data;
+    }
 }
 
-void drawBinaryTree(Node* root)
+static void drawTree(const vector<Node *> &treeData, int maxHeight)
 {
-	if(root == NULL)
-		return;
+    int levelCount = 1;
+    int width = 1;
 
-	int maxLevel = GetHeight(root);
-	int maxSize  = (1 << maxLevel)-1;
-	vector< Node* > treeData(maxSize);
+    int levelStart = 0;
+    int leftSpace = ROOT_POS;
+    int floorHeight = FLOOR_HEIGHT;
 
-	FOR(i,0,treeData.size()-1)
-	{
-		treeData[i] = NULL;
-	}
+    FOR(h, 1, maxHeight)
+    {
+        N_SPACE(leftSpace);
+        FOR(k, levelStart, levelStart + width - 1)
+        {
+            PrintNode(treeData[k]);
+            if (k < levelStart + width - 1)
+            {
+                N_SPACE(4 * floorHeight - KEY_SIZE - 1);
+            }
+        }
+        NEW_LINE;
 
-	treeData[0] = root;
+        if (h < maxHeight)
+            drawTreeLinks(treeData, levelStart, width, floorHeight, leftSpace);
 
-	FOR(pos, 0, (maxSize-2)/2)
-	{
-		if(treeData[pos] != NULL)
-		{
-		    treeData[2*pos+1] = treeData[pos]->left;
-		    treeData[2*pos+2] = treeData[pos]->right;
-		}
-	}
-
-	drawTree(treeData, maxLevel);
-
-	cout << endl;
+        levelStart = levelStart + width;
+        leftSpace--;
+        width <<= 1;
+    }
 }
 
+void drawBinaryTree(Node *root)
+{
+    if (root == NULL)
+        return;
 
+    int maxLevel = GetHeight(root);
+    int maxSize = (1 << maxLevel) - 1;
+    vector<Node *> treeData(maxSize);
+
+    FOR(i, 0, treeData.size() - 1)
+    {
+        treeData[i] = NULL;
+    }
+
+    treeData[0] = root;
+
+    FOR(pos, 0, (maxSize - 2) / 2)
+    {
+        if (treeData[pos] != NULL)
+        {
+            treeData[2 * pos + 1] = treeData[pos]->left;
+            treeData[2 * pos + 2] = treeData[pos]->right;
+        }
+    }
+
+    drawTree(treeData, maxLevel);
+
+    cout << endl;
+}

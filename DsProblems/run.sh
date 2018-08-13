@@ -1,7 +1,6 @@
-#make INPUT=Input SRC=ListProb.cpp
-make INPUT=Input SRC=MultiplyTwoLinkedList.cpp
-#make INPUT=Input SRC=BstProb.cpp
-#make INPUT=InputOld SRC=BstProb.cpp
+PROBLEM=$1
+
+make INPUT=Input SRC=$PROBLEM
 make clean
 
 # delete swp files
