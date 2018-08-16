@@ -11,7 +11,7 @@ int main()
     // Variation 1
     Node *root = NULL;
     DeSerialize(root, "Input");
-    drawBinaryTree(root);
+    DrawBinaryTree(root);
     Inorder(root);
     cout << endl;
 
@@ -22,7 +22,7 @@ int main()
         BSTInsert(root1, rand() % 50);
     }
 
-    drawBinaryTree(root1);
+    DrawBinaryTree(root1);
     Inorder(root1);
     cout << endl;
 

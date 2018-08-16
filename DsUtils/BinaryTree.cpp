@@ -206,7 +206,7 @@ static void drawTree(const vector<Node *> &treeData, int maxHeight)
     }
 }
 
-void drawBinaryTree(Node *root)
+void DrawBinaryTree(Node *root)
 {
     if (root == NULL)
         return;

@@ -13,7 +13,7 @@ void DeSerialize(Node *&root, const std::string &file);
 void Inorder(Node *root);
 void Preorder(Node *root);
 void Postorder(Node *root);
-void drawBinaryTree(Node *root);
+void DrawBinaryTree(Node *root);
 int GetHeight(Node *root);
 
 #endif
