@@ -78,6 +78,9 @@ void print_reverse(Node *start, Node *end)
         cout << cur[i] << " ";
 }
 
+/*
+* For each left subtree print Right part of Inorder in reverse way !!
+*/
 void MorrisPostorder(Node *root)
 {
     Node *dummy = new Node(-1);
