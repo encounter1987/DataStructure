@@ -7,6 +7,14 @@ struct Node
 {
     int data;
     Node *left, *right;
+
+    Node() : left(nullptr), right(nullptr)
+    {
+    }
+
+    Node(int data) : data(data), left(nullptr), right(nullptr)
+    {
+    }
 };
 
 void DeSerialize(Node *&root, const std::string &file);
