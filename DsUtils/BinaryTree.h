@@ -7,12 +7,13 @@ struct Node
 {
     int data;
     Node *left, *right;
+    Node *random;
 
-    Node() : left(nullptr), right(nullptr)
+    Node() : left(nullptr), right(nullptr), random(nullptr)
     {
     }
 
-    Node(int data) : data(data), left(nullptr), right(nullptr)
+    Node(int data) : data(data), left(nullptr), right(nullptr), random(nullptr)
     {
     }
 };
