@@ -162,6 +162,8 @@ static void PrintNode(const Node *node)
             count++;
 
         int n = ABS(node->data);
+        if (n == 0)
+            count++;
         while (n)
         {
             n /= 10;
@@ -208,6 +210,7 @@ static void drawTree(const vector<Node *> &treeData, int maxHeight)
 
 void DrawBinaryTree(Node *root)
 {
+    cout << endl;
     if (root == NULL)
         return;
 
