@@ -27,27 +27,67 @@ ostream &operator<<(ostream &out, const edge &ob)
 
 typedef vector<edge> Graph;
 
-bool addedtoMst(Graph &mst, edge e, int V)
+int find(vector<int> &Parent, int key)
 {
-    vector<bool> Visited(V + 1, false);
-    Visited[e.s - 1] = true;
-
-    for (int i = 0; i < V; ++i)
+    if (Parent[key] != key)
     {
+        Parent[key] = Parent[Parent[key]];
+        find(Parent, Parent[key]);
     }
+
+    return Parent[key];
 }
 
-void primeMst(const Graph &g, int V)
+void krushkalMst(const Graph &g, int V)
 {
-    int v = 1;
-    Graph mst;
-    mst.push_back(g[0]);
+    vector<int> Height(V, 1);
+    vector<int> Parent(V);
 
-    while (v < V)
+    vector<edge> res;
+
+    for (int i = 0; i < V; ++i)
+        Parent[i] = i;
+
+    int e = 0;
+    while (res.size() < V - 1)
     {
-        if (addedtoMst(mst, g[v]), V)
-            v++;
+        int x = find(Parent, g[e].s);
+        int y = find(Parent, g[e].d);
+
+        if (x != y)
+        {
+            res.push_back(g[e]);
+
+            if (Height[x] > Height[y])
+            {
+                Parent[y] = x;
+            }
+            else if (Height[x] < Height[y])
+            {
+                Parent[x] = y;
+            }
+            else
+            {
+                Parent[y] = x;
+                Height[x]++;
+            }
+        }
+
+        e++;
     }
+
+    for (int i = 0; i < res.size(); ++i)
+        cout << res[i];
+#if 0
+    cout << endl;
+    for (int i = 0; i < Parent.size(); ++i)
+        cout << Parent[i] << " ";
+    cout << endl;
+    for (int i = 0; i < Height.size(); ++i)
+        cout << Height[i] << " ";
+
+    cout << endl;
+#endif
 }
 
 int main()
@@ -67,7 +107,15 @@ int main()
 
     std::sort(g.begin(), g.end());
 
-    primeMst(g, v);
+#if 0
+    for (int i = 0; i < e; ++i)
+    {
+        cout << g[i];
+    }
+    cout << endl;
+#endif
+
+    krushkalMst(g, v);
 
     return 0;
 }
