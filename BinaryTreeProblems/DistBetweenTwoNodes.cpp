@@ -4,6 +4,14 @@
 
 using namespace std;
 
+
+// Simple brute force solution
+// find depth of key1
+// find depth of key2
+// find depth of lca for key1 && key2
+// result = dkey1 + dkey2 - 2*dlca
+
+
 int distanceBetweenNodes(Node* root, const int key1, const int key2, bool& foundLca)
 {
     if(root == nullptr)
