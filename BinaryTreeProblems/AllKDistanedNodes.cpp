@@ -7,6 +7,16 @@ Input level order: root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, K = 2
 Output: [7,4,1]
  */
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
 struct info {
     int height;
     bool found;
@@ -18,7 +28,7 @@ struct info {
 
 info heightAndDirection(TreeNode* root, 
                         TreeNode* target, 
-                        vector<bool>& dir, 
+                        vector<TreeNode*>& dir, 
                         int level)
 {
     if(root == nullptr)
@@ -35,7 +45,7 @@ info heightAndDirection(TreeNode* root,
     info rh = heightAndDirection(root->right, target, dir, level + 1);
 
     if(lh.found || rh.found)
-        dir[level] = rh.found; 
+        dir[level] = lh.found ? root->left : root->right;
     
     if(max(lh.height, rh.height) >= 0)
         return info(1 + max(lh.height, rh.height), lh.found || rh.found);
@@ -47,7 +57,7 @@ void distance(TreeNode* root,
               vector<int>& res, 
               int k, 
               int height, 
-              vector<bool>& dir, 
+              vector<TreeNode*>& dir, 
               int level) {
     
     if(root == nullptr)
@@ -56,8 +66,8 @@ void distance(TreeNode* root,
     if(height == k)
         res.push_back(root->val);
     
-    int lh = level < dir.size() && dir[level] == false ? -1:1;
-    int rh = level < dir.size() && dir[level] == true ? -1:1;
+    int lh = level < dir.size() && dir[level] == root->left ? -1:1;
+    int rh = level < dir.size() && dir[level] == root->right ? -1:1;
     
     distance(root->left, res, k, height + lh, dir, level + 1);
     distance(root->right, res, k, height + rh, dir, level + 1);    
@@ -66,10 +76,15 @@ void distance(TreeNode* root,
 class Solution {
 public:
     vector<int> distanceK(TreeNode* root, TreeNode* target, int K) {
-        
-        vector<bool> dir;
+        vector<TreeNode*> dir;
         info is = heightAndDirection(root, target, dir, 0);
         vector<int> res;
+        /*
+        cout << is.height << " "<<is.found<<endl;
+        for(int i = 0; i < dir.size(); ++i)
+            cout<< dir[i]->val<<" ";
+        cout<<endl;
+        */
         distance(root, res, K, is.height, dir, 0);
         
         return res;
