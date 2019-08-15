@@ -1,0 +1,63 @@
+/*
+
+https://leetcode.com/problems/n-queens/
+
+*/
+int getDigonal1(int n, int x, int y)
+{
+    int t = min(x, y);
+    x -= t;
+    y -= t;
+    
+    return x ? n - x: y ? n + y : n;
+}
+ 
+int getDigonal2(int x, int y)
+{
+    return x + y;
+}
+ 
+void doDfs(vector<vector<string>>& res,
+    vector<string>& board,
+    vector<bool>& row, 
+    vector<bool>& col,
+    vector<bool>& D1, 
+    vector<bool>& D2, int currRow, const int& N)
+{
+    if(currRow == N)
+    {
+        res.push_back(board);
+        return;
+    }
+
+    for(int each = 0; each < N; ++each)
+    {
+        int d1 = getDigonal1(N-1, currRow, each);
+        int d2 = getDigonal2(currRow, each);
+
+        if(!row[currRow] && !col[each] && !D1[d1] && !D2[d2])
+        {
+            row[currRow] = col[each] = D1[d1] = D2[d2] = true;
+            board[currRow][each] = 'Q';
+
+            doDfs(res, board, row, col, D1, D2, currRow + 1, N);
+
+            row[currRow] = col[each] = D1[d1] = D2[d2] = false;
+            board[currRow][each] = '.';
+        }
+    }
+}
+
+vector<vector<string> > Solution::solveNQueens(int N) {
+    vector<vector<string>> res;
+    vector<string> board(N, string(N, '.'));
+
+    vector<bool> row(N, false);
+    vector<bool> col(N, false);
+    vector<bool> D1(N*2 - 1, false);
+    vector<bool> D2(N*2 - 1, false);
+
+    doDfs(res, board, row, col, D1, D2, 0, N);
+
+    return res;
+}
