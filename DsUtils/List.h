@@ -12,9 +12,7 @@
 #define LIST_H
 
 #include <stdio.h>
-#include <memory.h>
-
-using namespace std;
+#include <stdlib.h>
 
 typedef struct Node{
 	int data;
